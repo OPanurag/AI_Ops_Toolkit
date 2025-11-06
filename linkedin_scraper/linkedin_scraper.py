@@ -140,7 +140,7 @@ def scrape_profiles():
             os.fsync(f.fileno())
 
     driver.quit()
-    print(f"\n✅ Done! Incremental results saved to {OUTPUT_FILE}")
+    print(f"\n✅ Done! Results saved to {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":
