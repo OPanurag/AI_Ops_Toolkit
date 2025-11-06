@@ -6,7 +6,7 @@ It:
 - Reads LinkedIn profile URLs from urls.txt
 - Opens each in Chrome using Selenium
 - Extracts name, headline, location, and about (best-effort)
-- Saves results to output/linkedin_profiles.csv
+- Saves results incrementally to output/linkedin_profiles.csv
 """
 
 import os
@@ -21,16 +21,14 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 
 # ================= CONFIG =================
-# URLS_FILE = "linkedin_scraper/urls.txt"
 OUTPUT_DIR = "output"
 URLS_FILE = os.path.join(os.path.dirname(__file__), "urls.txt")
 OUTPUT_FILE = os.path.join(os.path.dirname(__file__), "output", "linkedin_profiles.csv")
-# OUTPUT_FILE = os.path.join(OUTPUT_DIR, "linkedin_profiles.csv")
 
 HEADLESS = True     # Set to False if you want to see the browser
 LOGIN_URL = "https://www.linkedin.com/login"
-EMAIL = "etest2260@gmail.com"      # <--- Use test account only
-PASSWORD = "test_email0987"            # <--- Use test account only
+EMAIL = "etest2260@gmail.com"       # <--- Use test account only
+PASSWORD = "test_email0987"         # <--- Use test account only
 
 MIN_SLEEP = 3
 MAX_SLEEP = 7
@@ -98,16 +96,19 @@ def extract_fields_from_html(html):
 
 
 def scrape_profiles():
-    """Main scraper logic."""
+    """Main scraper logic with incremental CSV writing."""
     driver = setup_driver()
     linkedin_login(driver)
 
-    # read urls
+    # Read URLs
     with open(URLS_FILE, "r") as f:
         urls = [line.strip() for line in f if line.strip()]
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    results = []
+
+    # Initialize CSV with headers if it doesn't exist
+    if not os.path.exists(OUTPUT_FILE):
+        pd.DataFrame(columns=["url", "name", "headline", "location", "about"]).to_csv(OUTPUT_FILE, index=False)
 
     print(f"Starting scrape for {len(urls)} profiles...")
 
@@ -119,23 +120,27 @@ def scrape_profiles():
             html = driver.page_source
             data = extract_fields_from_html(html)
             data["url"] = url
-            results.append(data)
             print(f"   -> {data['name']} | {data['headline'][:50]}")
+
         except Exception as e:
             print(f"   -> Error: {e}")
-            results.append({
+            data = {
                 "url": url,
                 "name": "ERROR",
                 "headline": str(e),
                 "location": "N/A",
                 "about": "N/A"
-            })
+            }
+
+        # Write each record incrementally to CSV
+        df_row = pd.DataFrame([data])
+        with open(OUTPUT_FILE, "a", newline='', encoding='utf-8') as f:
+            df_row.to_csv(f, header=False, index=False)
+            f.flush()
+            os.fsync(f.fileno())
 
     driver.quit()
-
-    df = pd.DataFrame(results, columns=["url", "name", "headline", "location", "about"])
-    df.to_csv(OUTPUT_FILE, index=False)
-    print(f"\n✅ Done! Saved {len(results)} profiles to {OUTPUT_FILE}")
+    print(f"\n✅ Done! Incremental results saved to {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":
