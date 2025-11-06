@@ -150,8 +150,9 @@ LinkedIn may block automated requests. Add random delays or switch to manual log
 
 **Anurag Mishra**
 AI & ML Engineer | Data Scientist
-🔗 [LinkedIn](https://www.linkedin.com/in/anuragmishra02/)
 📧 [officiallyanurag1@gmail.com](mailto:officiallyanurag1@gmail.com)
+🔗 [LinkedIn](https://www.linkedin.com/in/anuragmishra02/)
+💻 [GitHub](https://github.com/OPanurag)
 
 ---
 
