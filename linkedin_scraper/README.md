@@ -42,7 +42,7 @@ AI_Ops_Toolkit/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/AI_Ops_Toolkit.git
+git clone https://github.com/OPAnurag/AI_Ops_Toolkit.git
 cd AI_Ops_Toolkit/linkedin_scraper
 ````
 
