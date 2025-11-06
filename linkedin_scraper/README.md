@@ -23,7 +23,7 @@ It automates Chrome using Selenium, extracts profile data from given LinkedIn UR
 
 ## 🧩 Project Structure
 
-````
+````bash
 
 AI_Ops_Toolkit/
 └── linkedin_scraper/
