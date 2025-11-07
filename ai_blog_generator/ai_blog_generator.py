@@ -16,19 +16,24 @@ import time
 import random
 import google.generativeai as genai
 
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
+
 # ================= CONFIG =================
 TITLES_FILE = os.path.join(os.path.dirname(__file__), "titles.txt")
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output", "blogs")
 PROMPTS_DIR = os.path.join(os.path.dirname(__file__), "prompts")
 
 # Load API key from env var
-API_KEY = os.getenv("GEMINI_API_KEY")  # set this using: export GEMINI_API_KEY="your_api_key"
+API_KEY = os.getenv("GEMINI_API_KEY")  # set in .env file
 if not API_KEY:
-    raise ValueError("❌ GEMINI_API_KEY not set. Please export it before running.")
+    raise ValueError("❌ GEMINI_API_KEY not set. Please create a .env file.")
 
 genai.configure(api_key=API_KEY)
 
-MODEL_NAME = "gemini-1.5-flash"  # You can also use "gemini-pro" or "gemini-1.5-pro"
+MODEL_NAME = "gemini-2.5-flash"  # You can also use "gemini-pro" or "gemini-1.5-pro"
 MIN_SLEEP = 3
 MAX_SLEEP = 6
 # ==========================================
