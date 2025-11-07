@@ -60,3 +60,5 @@ group :development do
 end
 
 gem "twilio-ruby", "~> 7.8"
+
+gem "dotenv", "~> 3.1"

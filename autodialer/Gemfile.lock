@@ -381,6 +381,7 @@ DEPENDENCIES
   brakeman
   bundler-audit
   debug
+  dotenv (~> 3.1)
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
