@@ -87,5 +87,3 @@ AI & ML Engineer | Data Scientist
 ## ⚖️ Disclaimer
 
 This project is for **educational and research purposes only**.
-Scraping LinkedIn or other platforms without permission may violate their Terms of Service.
-Use responsibly.
