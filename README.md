@@ -75,7 +75,7 @@ AI_Automation_Assignment/
 ---
 
 ## 🧑‍💻 Author
-**Anurag Mishra**
+###Anurag Mishra###
 AI & ML Engineer | Data Scientist
 📧 [officiallyanurag1@gmail.com](mailto:officiallyanurag1@gmail.com)
 🔗 [LinkedIn](https://www.linkedin.com/in/anuragmishra02/)
