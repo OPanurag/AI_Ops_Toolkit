@@ -156,3 +156,21 @@ While **AutoDialer** is a technically viable and elegant demonstration of AI–T
 3. Compliance with **call consent and data retention regulations**.
 
 For R&D, the logic can still be tested locally or simulated using **Twilio’s Voice Simulator** or **local mock endpoints**, but **real number dialing** to Indian users remains legally and economically impractical.
+
+---
+
+## 🧑‍💻 Author
+
+**Anurag Mishra**
+AI & ML Engineer | Data Scientist
+📧 [officiallyanurag1@gmail.com](mailto:officiallyanurag1@gmail.com)
+🔗 [LinkedIn](https://www.linkedin.com/in/anuragmishra02/)
+💻 [GitHub](https://github.com/OPanurag)
+
+---
+
+## ⚖️ Disclaimer
+
+This project is for **educational and research purposes only**.
+Scraping LinkedIn or other platforms without permission may violate their Terms of Service.
+Use responsibly.

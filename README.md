@@ -74,16 +74,18 @@ AI_Automation_Assignment/
 
 ---
 
-## ⚖️ Disclaimer
-
-These projects are for **educational and research purposes only**.
-Please comply with **LinkedIn’s Terms of Service** and **Indian telecom regulations** when reproducing or extending these examples.
-
----
-
-## 👨‍💻 Author
+## 🧑‍💻 Author
 
 **Anurag Mishra**
 AI & ML Engineer | Data Scientist
-📧 [anuragmishra02@gmail.com](mailto:anuragmishra02@gmail.com)
-🔗 [LinkedIn](https://www.linkedin.com/in/anuragmishra02/) | [GitHub](https://github.com/OPanurag)
+📧 [officiallyanurag1@gmail.com](mailto:officiallyanurag1@gmail.com)
+🔗 [LinkedIn](https://www.linkedin.com/in/anuragmishra02/)
+💻 [GitHub](https://github.com/OPanurag)
+
+---
+
+## ⚖️ Disclaimer
+
+This project is for **educational and research purposes only**.
+Scraping LinkedIn or other platforms without permission may violate their Terms of Service.
+Use responsibly.
