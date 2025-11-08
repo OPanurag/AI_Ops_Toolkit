@@ -118,7 +118,7 @@ AI_API_KEY=<your_gemini_or_openai_key>
 
 ---
 
-## 🚫 Legal & Operational Limitations (India Context)
+## 🚫 Legal & Operational Limitations
 
 ### 1. **Telecom Regulatory Authority of India (TRAI) Restrictions**
 
