@@ -163,9 +163,9 @@ For R&D, the logic can still be tested locally or simulated using **Twilio’s V
 ```bash
 **Anurag Mishra**
 AI & ML Engineer | Data Scientist
-📧 [officiallyanurag1@gmail.com](mailto:officiallyanurag1@gmail.com)
-🔗 [LinkedIn](https://www.linkedin.com/in/anuragmishra02/)
-💻 [GitHub](https://github.com/OPanurag)
+📧 Email --> officiallyanurag1@gmail.com
+🔗 LinkedIn --> https://www.linkedin.com/in/anuragmishra02/
+💻 GitHub --> https://github.com/OPanurag
 ```
 ---
 

@@ -75,11 +75,13 @@ AI_Automation_Assignment/
 ---
 
 ## 🧑‍💻 Author
-###Anurag Mishra###
+```bash
+**Anurag Mishra**
 AI & ML Engineer | Data Scientist
-📧 [officiallyanurag1@gmail.com](mailto:officiallyanurag1@gmail.com)
-🔗 [LinkedIn](https://www.linkedin.com/in/anuragmishra02/)
-💻 [GitHub](https://github.com/OPanurag)
+📧 Email --> officiallyanurag1@gmail.com
+🔗 LinkedIn --> https://www.linkedin.com/in/anuragmishra02/
+💻 GitHub --> https://github.com/OPanurag
+```
 ---
 
 ## ⚖️ Disclaimer
