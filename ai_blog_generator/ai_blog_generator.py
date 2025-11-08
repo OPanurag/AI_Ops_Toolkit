@@ -1,114 +1,94 @@
-"""
-A simple AI-powered blog generator using the Gemini API.
-
-It:
-- Reads blog titles (with optional details) from titles.txt
-- Generates full blog content via Gemini API
-- Saves each blog as a Markdown file under output/blogs/
-- Logs progress and errors
-
-Usage:
-    python ai_blog_generator/ai_blog_generator.py
-"""
-
 import os
 import time
-import random
-import google.generativeai as genai
-
+import streamlit as st
 from dotenv import load_dotenv
+import google.generativeai as genai
+from pathlib import Path
 
-# Load environment variables
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
-
-# ================= CONFIG =================
-TITLES_FILE = os.path.join(os.path.dirname(__file__), "titles.txt")
-OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output", "blogs")
-PROMPTS_DIR = os.path.join(os.path.dirname(__file__), "prompts")
-
-# Load API key from env var
-API_KEY = os.getenv("GEMINI_API_KEY")  # set in .env file
+# ================= CONFIGURATION =================
+load_dotenv()
+API_KEY = os.getenv("GEMINI_API_KEY")
 if not API_KEY:
-    raise ValueError("❌ GEMINI_API_KEY not set. Please create a .env file.")
+    st.error("❌ GEMINI_API_KEY not found in .env file.")
+    st.stop()
 
 genai.configure(api_key=API_KEY)
-
-MODEL_NAME = "gemini-2.5-flash"  # You can also use "gemini-pro" or "gemini-1.5-pro"
-MIN_SLEEP = 3
-MAX_SLEEP = 6
-# ==========================================
-
-
-def load_titles():
-    """Read titles from titles.txt"""
-    with open(TITLES_FILE, "r") as f:
-        titles = [line.strip() for line in f if line.strip()]
-    return titles
+MODEL_NAME = "gemini-2.5-flash"
+OUTPUT_DIR = Path(__file__).parent / "output" / "blogs"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+# ==================================================
 
 
-def generate_prompt(title):
-    """Generate a clean prompt for Gemini"""
-    base_prompt = f"""
-You are a technical writer specializing in programming tutorials and deep dives.
-Write a detailed, well-structured, SEO-optimized blog article on the following topic:
-"{title}"
+def generate_blog(title: str, model_name: str = MODEL_NAME) -> str:
+    """Generate blog content for a given title using Gemini API."""
+    prompt = (
+        f"Write a detailed, well-structured technical article on '{title}'. "
+        f"Focus on clarity, examples, and practical insights. "
+        f"Use markdown formatting (### headings, lists, code blocks, etc.) "
+        f"Include an introduction and conclusion."
+    )
 
-The article must:
-- Be at least 800 words
-- Contain clear sections with Markdown headers (##, ###)
-- Include examples, code snippets, and practical explanations
-- Avoid fluff, keep a professional tone
-- End with a short summary and takeaway points
-"""
-    return base_prompt.strip()
+    model = genai.GenerativeModel(model_name)
+    response = model.generate_content(prompt)
+    return response.text.strip()
 
 
-def generate_blog(title):
-    """Call Gemini API to generate a blog post."""
-    prompt = generate_prompt(title)
-    model = genai.GenerativeModel(MODEL_NAME)
-    try:
-        response = model.generate_content(prompt)
-        return response.text.strip()
-    except Exception as e:
-        print(f"⚠️ Error generating blog for '{title}': {e}")
-        return None
+def save_blog(title: str, content: str):
+    """Save generated blog to markdown file."""
+    safe_name = "_".join(title.lower().split())
+    filepath = OUTPUT_DIR / f"{safe_name}.md"
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(content)
+    return filepath
 
 
-def save_blog(title, content):
-    """Save blog as Markdown file."""
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    safe_name = title.lower().replace(" ", "_").replace("/", "_")[:50]
-    file_path = os.path.join(OUTPUT_DIR, f"{safe_name}.md")
+# ================= STREAMLIT UI ===================
+st.set_page_config(
+    page_title="AI Blog Generator",
+    page_icon="🧠",
+    layout="wide",
+)
 
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.write(f"# {title}\n\n{content}")
+st.title("🧠 AI Blog Generator (Gemini Powered)")
+st.markdown(
+    "Type one or more blog titles below (one per line), and click **Generate Blogs** to create AI-written articles."
+)
 
-    print(f"✅ Saved: {file_path}")
-    return file_path
+titles_input = st.text_area(
+    "Enter blog titles:",
+    placeholder="e.g.\nOptimizing Python with NumPy\nDeep Learning in Edge Devices\nBuilding APIs with FastAPI",
+    height=180,
+)
 
+generate_button = st.button("🚀 Generate Blogs")
 
-def main():
-    print("🚀 Starting AI Blog Generator...")
-    titles = load_titles()
-
+if generate_button:
+    titles = [t.strip() for t in titles_input.split("\n") if t.strip()]
     if not titles:
-        print("❌ No titles found in titles.txt")
-        return
+        st.warning("Please enter at least one title.")
+    else:
+        progress = st.progress(0)
+        total = len(titles)
+        results = []
 
-    print(f"🧠 Loaded {len(titles)} titles from titles.txt\n")
+        for i, title in enumerate(titles, 1):
+            with st.spinner(f"Generating blog {i}/{total}: {title}"):
+                try:
+                    content = generate_blog(title)
+                    path = save_blog(title, content)
+                    st.success(f"✅ {title} saved → {path.name}")
+                    with st.expander(f"📘 Preview: {title}"):
+                        st.markdown(content)
+                    results.append((title, path))
+                except Exception as e:
+                    st.error(f"Failed to generate '{title}': {e}")
+                time.sleep(2)
+                progress.progress(i / total)
 
-    for i, title in enumerate(titles, 1):
-        print(f"[{i}/{len(titles)}] Generating blog for: {title}")
-        content = generate_blog(title)
-        if content:
-            save_blog(title, content)
-        else:
-            print(f"❌ Failed to generate blog for {title}")
-        time.sleep(random.uniform(MIN_SLEEP, MAX_SLEEP))
+        st.balloons()
+        st.markdown("### 🎉 Generation Complete!")
+        for title, path in results:
+            st.markdown(f"- [{title}]({path})")
 
-    print("\n🎉 All blogs generated successfully!")
-
-
-if __name__ == "__main__":
-    main()
+st.markdown("---")
+st.caption("Built with Streamlit + Google Gemini | AI Ops Toolkit")
