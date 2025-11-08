@@ -1,9 +1,8 @@
-```
 # 🧠 LinkedIn Profile Scraper (Educational Use Only)
-
+```
 A simple **Selenium-based LinkedIn profile scraper** built for educational and testing purposes.  
 It automates Chrome using Selenium, extracts profile data from given LinkedIn URLs, and saves the results into a CSV file incrementally.
-
+```
 ---
 
 ## 🚀 Features
@@ -161,7 +160,3 @@ AI & ML Engineer | Data Scientist
 This project is for **educational and research purposes only**.
 Scraping LinkedIn or other platforms without permission may violate their Terms of Service.
 Use responsibly.
-
----
-
-```
